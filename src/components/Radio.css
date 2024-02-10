@@ -1,0 +1,10 @@
+.my-radio {
+  .radio-inputs-container {
+    display: flex;
+    gap: 8px;
+  }
+
+  label {
+    padding-left: 4px;
+  }
+}

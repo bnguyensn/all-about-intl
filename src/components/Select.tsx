@@ -1,17 +1,17 @@
 import './Select.css';
 
 export interface SelectProps {
-  value: string;
-  setValue: (value: string) => void;
   name: string;
   label: string;
+  value: string;
+  setValue: (value: string) => void;
   options: string[];
 }
 
 export function Select({ value, setValue, name, label, options }: SelectProps) {
   return (
     <div className="my-select">
-      <label htmlFor={`${name}-select`}>{label}:</label>
+      <label htmlFor={`${name}-select`}>{label}</label>
       <select
         name={name}
         id={`${name}-select`}

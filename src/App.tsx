@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.css';
+import { Radio } from './components/Radio.tsx';
 import { Select } from './components/Select.tsx';
 import { format } from './lib/format.ts';
 
@@ -7,7 +8,7 @@ type Locale = 'en-GB' | 'en-US';
 
 function App() {
   const [locale, setLocale] = useState<Locale | ''>('en-GB');
-  const [isPercent, setIsPercent] = useState<string>('false');
+  const [isPercent, setIsPercent] = useState<'true' | 'false'>('false');
 
   const [input, setInput] = useState('');
 
@@ -25,6 +26,13 @@ function App() {
           name="locale"
           label="Select locale:"
           options={['en-GB', 'en-US', 'vi']}
+        />
+        <Radio
+          name="is-percent"
+          label="Is percent:"
+          value={`${isPercent}`}
+          setValue={(newValue) => setIsPercent(newValue as 'true' | 'false')}
+          options={['true', 'false']}
         />
         <div>
           <label htmlFor="number-input">To be formatted:</label>
