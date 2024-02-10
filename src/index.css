@@ -66,22 +66,3 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
-
-label {
-  padding-right: 4px;
-}
-
-select,
-option {
-  font-family: inherit;
-}
-
-.inputs-container {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.formatted-value {
-  color: lightseagreen;
-}

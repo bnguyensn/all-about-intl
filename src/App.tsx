@@ -1,47 +1,15 @@
-import { useState } from "react";
-import "./App.css";
-import { format } from "./format";
+import { useState } from 'react';
+import './App.css';
+import { Select } from './components/Select.tsx';
+import { format } from './lib/format.ts';
 
-type Locale = "en-GB" | "en-US";
-
-function Select({
-  value,
-  setValue: setLocale,
-  name,
-  options,
-}: {
-  value: string;
-  setValue: (value: string) => void;
-  name: string;
-  options: string[];
-}) {
-  return (
-    <div className="my-select">
-      <label htmlFor={`${name}-select`}>Select {name}:</label>
-      <select
-        name={name}
-        id={`${name}-select`}
-        onChange={(e) => {
-          setLocale(e.target.value);
-        }}
-        value={value}
-      >
-        <option value="">--Please choose an option--</option>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-}
+type Locale = 'en-GB' | 'en-US';
 
 function App() {
-  const [locale, setLocale] = useState<Locale | "">("en-GB");
-  const [isPercent, setIsPercent] = useState<string>("false");
+  const [locale, setLocale] = useState<Locale | ''>('en-GB');
+  const [isPercent, setIsPercent] = useState<string>('false');
 
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
 
   return (
     <div>
@@ -52,18 +20,11 @@ function App() {
         <Select
           value={locale}
           setValue={(newValue) => {
-            setLocale(newValue as Locale | "");
+            setLocale(newValue as Locale | '');
           }}
           name="locale"
-          options={["en-GB", "en-US", "vi"]}
-        />
-        <Select
-          value={isPercent}
-          setValue={(newValue) => {
-            setIsPercent(newValue);
-          }}
-          name="is-percent"
-          options={["true", "false"]}
+          label="Select locale:"
+          options={['en-GB', 'en-US', 'vi']}
         />
         <div>
           <label htmlFor="number-input">To be formatted:</label>
@@ -75,11 +36,11 @@ function App() {
           />
         </div>
         <div>
-          Formatted:{" "}
+          Formatted:{' '}
           <span className="formatted-value">
             {format(input, {
               locale,
-              isPercent: isPercent === "true" ? true : false,
+              isPercent: isPercent === 'true',
             })}
           </span>
         </div>

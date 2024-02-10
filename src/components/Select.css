@@ -1,0 +1,10 @@
+.my-select {
+  label {
+    padding-right: 4px;
+  }
+
+  select,
+  option {
+    font-family: inherit;
+  }
+}

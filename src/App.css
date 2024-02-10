@@ -40,3 +40,13 @@
 .read-the-docs {
   color: #888;
 }
+
+.inputs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formatted-value {
+  color: lightseagreen;
+}
