@@ -1,4 +1,8 @@
 .my-select {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
   label {
     padding-right: 4px;
   }

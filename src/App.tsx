@@ -17,23 +17,7 @@ function App() {
       <h1>
         <pre>Intl.NumberFormat</pre>
       </h1>
-      <div className="inputs-container">
-        <Select
-          value={locale}
-          setValue={(newValue) => {
-            setLocale(newValue as Locale | '');
-          }}
-          name="locale"
-          label="Select locale:"
-          options={['en-GB', 'en-US', 'vi']}
-        />
-        <Radio
-          name="is-percent"
-          label="Is percent:"
-          value={`${isPercent}`}
-          setValue={(newValue) => setIsPercent(newValue as 'true' | 'false')}
-          options={['true', 'false']}
-        />
+      <div className="formatter-container">
         <div>
           <label htmlFor="number-input">To be formatted:</label>
           <input
@@ -43,15 +27,34 @@ function App() {
             onChange={(e) => setInput(e.target.value)}
           />
         </div>
-        <div>
-          Formatted:{' '}
+        <span>
+          {input === '' ? 'Nothing to format' : 'Formatted value:'}
           <span className="formatted-value">
             {format(input, {
               locale,
               isPercent: isPercent === 'true',
             })}
           </span>
-        </div>
+        </span>
+      </div>
+      <div className="inputs-container">
+        <Select
+          value={locale}
+          setValue={(newValue) => {
+            setLocale(newValue as Locale | '');
+          }}
+          name="locale"
+          label="Select locale:"
+          options={['en-GB', 'en-US', 'vi']}
+          info="Determines the locale used. Use navigator.language to find the browser's current locale."
+        />
+        <Radio
+          name="is-percent"
+          label="Is percent:"
+          value={`${isPercent}`}
+          setValue={(newValue) => setIsPercent(newValue as 'true' | 'false')}
+          options={['true', 'false']}
+        />
       </div>
     </div>
   );

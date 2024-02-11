@@ -1,4 +1,5 @@
 import './Select.css';
+import { Info } from './Info.tsx';
 
 export interface SelectProps {
   name: string;
@@ -6,9 +7,17 @@ export interface SelectProps {
   value: string;
   setValue: (value: string) => void;
   options: string[];
+  info?: string;
 }
 
-export function Select({ value, setValue, name, label, options }: SelectProps) {
+export function Select({
+  value,
+  setValue,
+  name,
+  label,
+  options,
+  info,
+}: SelectProps) {
   return (
     <div className="my-select">
       <label htmlFor={`${name}-select`}>{label}</label>
@@ -27,6 +36,7 @@ export function Select({ value, setValue, name, label, options }: SelectProps) {
           </option>
         ))}
       </select>
+      {info && <Info content={info} />}
     </div>
   );
 }

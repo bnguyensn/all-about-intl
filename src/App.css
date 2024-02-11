@@ -47,6 +47,13 @@
   gap: 8px;
 }
 
+.formatter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
 .formatted-value {
   color: lightseagreen;
 }
