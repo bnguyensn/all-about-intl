@@ -1,6 +1,6 @@
 export interface FormatOptions {
   locale?: string;
-  isPercent?: boolean;
+  options?: Intl.NumberFormatOptions;
 }
 
 const specialChars = ['k', 'm', 'b', 't'];
@@ -17,7 +17,7 @@ const specialCharsMultiplyValue = {
  */
 export function format(
   value: string,
-  { locale, isPercent }: FormatOptions = {},
+  { locale, options }: FormatOptions = {},
 ): string {
   if (value === '' || value === null || value === undefined) {
     return '';
@@ -50,8 +50,8 @@ export function format(
   numberValue *= finalMultiplier;
 
   const formatter = Intl.NumberFormat(locale, {
-    style: isPercent ? 'percent' : 'decimal',
     minimumFractionDigits: 5,
+    ...options,
   });
 
   return formatter.format(numberValue);
