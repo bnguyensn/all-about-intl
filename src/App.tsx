@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.css';
+import { NumberInput } from './components/NumberInput.tsx';
 import { Radio } from './components/Radio.tsx';
 import { Select } from './components/Select.tsx';
 import { TextInput } from './components/TextInput.tsx';
@@ -13,6 +14,8 @@ function App() {
     useState<Intl.NumberFormatOptions['style']>('decimal');
   const [currency, setCurrency] = useState('GBP');
   const [unit, setUnit] = useState('byte');
+  const [minIntDigits, setMinIntDigits] = useState('1');
+  const [minFractionDigits, setMinFractionDigits] = useState('0');
 
   const [input, setInput] = useState('10000000');
 
@@ -33,7 +36,13 @@ function App() {
           <span className="formatted-value">
             {format(input, {
               locale,
-              options: { style: formatStyle, currency, unit },
+              options: {
+                style: formatStyle,
+                currency,
+                unit,
+                minimumIntegerDigits: Number(minIntDigits),
+                minimumFractionDigits: Number(minFractionDigits),
+              },
             })}
           </span>
         </span>
@@ -82,6 +91,27 @@ function App() {
             info="Unit must be provided when using 'unit' format style."
           />
         )}
+        <NumberInput
+          value={minIntDigits}
+          setValue={(newValue) => {
+            setMinIntDigits(newValue);
+          }}
+          name="min-int-digits"
+          label="Minimum integer digits:"
+          min={1}
+          max={21}
+          info="A value with a smaller number of integer digits than this number will be left-padded with zeros when formatted."
+        />
+        <NumberInput
+          value={minFractionDigits}
+          setValue={(newValue) => {
+            setMinFractionDigits(newValue);
+          }}
+          name="min-fraction-digits"
+          label="Minimum fraction digits:"
+          min={0}
+          max={20}
+        />
       </div>
     </main>
   );
