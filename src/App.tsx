@@ -13,6 +13,8 @@ function App() {
   const [formatStyle, setFormatStyle] =
     useState<Intl.NumberFormatOptions['style']>('decimal');
   const [currency, setCurrency] = useState('GBP');
+  const [currencyDisplay, setCurrencyDisplay] =
+    useState<Intl.NumberFormatOptions['currencyDisplay']>('symbol');
   const [unit, setUnit] = useState('byte');
   const [minIntDigits, setMinIntDigits] = useState('1');
   const [minFractionDigits, setMinFractionDigits] = useState('0');
@@ -39,6 +41,7 @@ function App() {
               options: {
                 style: formatStyle,
                 currency,
+                currencyDisplay,
                 unit,
                 minimumIntegerDigits: Number(minIntDigits),
                 minimumFractionDigits: Number(minFractionDigits),
@@ -68,16 +71,30 @@ function App() {
           options={['decimal', 'currency', 'percent', 'unit']}
         />
         {formatStyle === 'currency' && (
-          <Select
-            value={currency}
-            setValue={(newValue) => {
-              setCurrency(newValue);
-            }}
-            name="currency"
-            label="Select currency:"
-            options={['GBP', 'USD', 'EUR']}
-            info="Currency must be provided when using 'currency' format style."
-          />
+          <>
+            <Select
+              value={currency}
+              setValue={(newValue) => {
+                setCurrency(newValue);
+              }}
+              name="currency"
+              label="Select currency:"
+              options={['GBP', 'USD', 'EUR']}
+              noEmptyValue
+              info="Currency must be provided when using 'currency' format style."
+            />
+            <Radio
+              name="currency-display"
+              label="Currency display:"
+              value={`${currencyDisplay}`}
+              setValue={(newValue) =>
+                setCurrencyDisplay(
+                  newValue as Intl.NumberFormatOptions['currencyDisplay'],
+                )
+              }
+              options={['code', 'symbol', 'narrowSymbol', 'name']}
+            />
+          </>
         )}
         {formatStyle === 'unit' && (
           <Select

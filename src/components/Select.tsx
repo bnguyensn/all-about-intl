@@ -7,6 +7,7 @@ export interface SelectProps {
   value: string;
   setValue: (value: string) => void;
   options: string[];
+  noEmptyValue?: boolean;
   info?: string;
 }
 
@@ -16,6 +17,7 @@ export function Select({
   name,
   label,
   options,
+  noEmptyValue,
   info,
 }: SelectProps) {
   return (
@@ -29,7 +31,7 @@ export function Select({
         }}
         value={value}
       >
-        <option value="">--Please choose an option--</option>
+        {!noEmptyValue && <option value="">--Please choose an option--</option>}
         {options.map((option) => (
           <option key={option} value={option}>
             {option}
