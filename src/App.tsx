@@ -15,6 +15,8 @@ function App() {
   const [currency, setCurrency] = useState('GBP');
   const [currencyDisplay, setCurrencyDisplay] =
     useState<Intl.NumberFormatOptions['currencyDisplay']>('symbol');
+  const [currencySign, setCurrencySign] =
+    useState<Intl.NumberFormatOptions['currencySign']>('standard');
   const [unit, setUnit] = useState('byte');
   const [minIntDigits, setMinIntDigits] = useState('1');
   const [minFractionDigits, setMinFractionDigits] = useState('0');
@@ -42,6 +44,7 @@ function App() {
                 style: formatStyle,
                 currency,
                 currencyDisplay,
+                currencySign,
                 unit,
                 minimumIntegerDigits: Number(minIntDigits),
                 minimumFractionDigits: Number(minFractionDigits),
@@ -93,6 +96,17 @@ function App() {
                 )
               }
               options={['code', 'symbol', 'narrowSymbol', 'name']}
+            />
+            <Radio
+              name="currency-sign"
+              label="Currency sign:"
+              value={`${currencySign}`}
+              setValue={(newValue) =>
+                setCurrencySign(
+                  newValue as Intl.NumberFormatOptions['currencySign'],
+                )
+              }
+              options={['standard', 'accounting']}
             />
           </>
         )}
