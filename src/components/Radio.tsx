@@ -1,12 +1,23 @@
+import { Info } from './Info.tsx';
+import './Radio.css';
+
 export interface RadioProps {
   name: string;
   label: string;
   value: string;
   setValue: (newValue: string) => void;
   options: string[];
+  info?: string;
 }
 
-export function Radio({ name, label, value, setValue, options }: RadioProps) {
+export function Radio({
+  name,
+  label,
+  value,
+  setValue,
+  options,
+  info,
+}: RadioProps) {
   return (
     <fieldset
       className="my-radio"
@@ -16,7 +27,10 @@ export function Radio({ name, label, value, setValue, options }: RadioProps) {
         setValue(e.target.value);
       }}
     >
-      <legend>{label}</legend>
+      <div className="label-container">
+        <legend>{label}</legend>
+        {info && <Info content={info} />}
+      </div>
       <div className="radio-inputs-container">
         {options.map((option) => (
           <span key={option}>

@@ -1,7 +1,17 @@
 .my-radio {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
   .radio-inputs-container {
     display: flex;
     gap: 8px;
+  }
+
+  .label-container {
+    display: flex;
+    gap: 8px;
+    align-items: center;
   }
 
   label {

@@ -107,6 +107,7 @@ function App() {
                 )
               }
               options={['standard', 'accounting']}
+              info="'Accounting' will use parentheses for negative values."
             />
           </>
         )}
