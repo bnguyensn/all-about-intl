@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import { NumberInput } from './components/NumberInput.tsx';
 import { Radio } from './components/Radio.tsx';
@@ -8,6 +8,8 @@ import { format } from './lib/format.ts';
 import units from './config/units.json';
 
 type Locale = 'en-GB' | 'en-US';
+
+const LOCAL_STORAGE_VALUE_KEY = 'inputValue';
 
 function App() {
   const [locale, setLocale] = useState<Locale | ''>('en-GB');
@@ -21,8 +23,18 @@ function App() {
   const [unit, setUnit] = useState('byte');
   const [minIntDigits, setMinIntDigits] = useState('1');
   const [minFractionDigits, setMinFractionDigits] = useState('0');
+  const [maxFractionDigits, setMaxFractionDigits] = useState<string>('');
+  const [unitDisplay, setUnitDisplay] =
+    useState<Intl.NumberFormatOptions['unitDisplay']>('short');
 
   const [input, setInput] = useState('10000000');
+
+  useEffect(() => {
+    const savedInput = localStorage.getItem(LOCAL_STORAGE_VALUE_KEY);
+    if (savedInput) {
+      setInput(savedInput);
+    }
+  }, []);
 
   return (
     <main>
@@ -32,7 +44,10 @@ function App() {
       <div className="formatter-container">
         <TextInput
           value={input}
-          setValue={setInput}
+          setValue={(newValue) => {
+            setInput(newValue);
+            localStorage.setItem(LOCAL_STORAGE_VALUE_KEY, newValue);
+          }}
           name="number-to-be-formatted"
           label="To be formatted:"
         />
@@ -47,8 +62,12 @@ function App() {
                 currencyDisplay,
                 currencySign,
                 unit,
+                unitDisplay,
                 minimumIntegerDigits: Number(minIntDigits),
                 minimumFractionDigits: Number(minFractionDigits),
+                maximumFractionDigits: maxFractionDigits
+                  ? Number(maxFractionDigits)
+                  : undefined,
               },
             })}
           </span>
@@ -113,16 +132,29 @@ function App() {
           </>
         )}
         {formatStyle === 'unit' && (
-          <Select
-            value={unit}
-            setValue={(newValue) => {
-              setUnit(newValue);
-            }}
-            name="unit"
-            label="Select unit:"
-            options={units}
-            info="Unit must be provided when using 'unit' format style."
-          />
+          <>
+            <Select
+              value={unit}
+              setValue={(newValue) => {
+                setUnit(newValue);
+              }}
+              name="unit"
+              label="Select unit:"
+              options={units}
+              info="Unit must be provided when using 'unit' format style."
+            />
+            <Radio
+              name="unit-display"
+              label="Unit display:"
+              value={`${unitDisplay}`}
+              setValue={(newValue) =>
+                setUnitDisplay(
+                  newValue as Intl.NumberFormatOptions['unitDisplay'],
+                )
+              }
+              options={['short', 'narrow', 'long']}
+            />
+          </>
         )}
         <NumberInput
           value={minIntDigits}
@@ -144,6 +176,17 @@ function App() {
           label="Minimum fraction digits:"
           min={0}
           max={20}
+        />
+        <NumberInput
+          value={maxFractionDigits}
+          setValue={(newValue) => {
+            setMaxFractionDigits(newValue);
+          }}
+          name="max-fraction-digits"
+          label="Maximum fraction digits:"
+          min={0}
+          max={20}
+          info="Leave empty for default behaviour."
         />
       </div>
     </main>
