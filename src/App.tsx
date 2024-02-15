@@ -5,6 +5,7 @@ import { Radio } from './components/Radio.tsx';
 import { Select } from './components/Select.tsx';
 import { TextInput } from './components/TextInput.tsx';
 import { format } from './lib/format.ts';
+import units from './config/units.json';
 
 type Locale = 'en-GB' | 'en-US';
 
@@ -119,7 +120,7 @@ function App() {
             }}
             name="unit"
             label="Select unit:"
-            options={['byte', 'kilobyte', 'megabyte', 'gigabyte']}
+            options={units}
             info="Unit must be provided when using 'unit' format style."
           />
         )}
