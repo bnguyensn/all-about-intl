@@ -21,9 +21,14 @@ function App() {
   const [currencySign, setCurrencySign] =
     useState<Intl.NumberFormatOptions['currencySign']>('standard');
   const [unit, setUnit] = useState('byte');
-  const [minIntDigits, setMinIntDigits] = useState('1');
-  const [minFractionDigits, setMinFractionDigits] = useState('0');
+  const [minIntDigits, setMinIntDigits] = useState('');
+  const [minFractionDigits, setMinFractionDigits] = useState('');
   const [maxFractionDigits, setMaxFractionDigits] = useState<string>('');
+  const [minSignificantDigits, setMinSignificantDigits] = useState<string>('');
+  const [maxSignificantDigits, setMaxSignificantDigits] = useState<string>('');
+  const [roundingPriority, setRoundingPriority] = useState<
+    'auto' | 'morePrecision' | 'lessPrecision'
+  >('auto');
   const [unitDisplay, setUnitDisplay] =
     useState<Intl.NumberFormatOptions['unitDisplay']>('short');
 
@@ -63,11 +68,23 @@ function App() {
                 currencySign,
                 unit,
                 unitDisplay,
-                minimumIntegerDigits: Number(minIntDigits),
-                minimumFractionDigits: Number(minFractionDigits),
+                minimumIntegerDigits: minIntDigits
+                  ? Number(minIntDigits)
+                  : undefined,
+                minimumFractionDigits: minFractionDigits
+                  ? Number(minFractionDigits)
+                  : undefined,
                 maximumFractionDigits: maxFractionDigits
                   ? Number(maxFractionDigits)
                   : undefined,
+                minimumSignificantDigits: minSignificantDigits
+                  ? Number(minSignificantDigits)
+                  : undefined,
+                maximumSignificantDigits: maxSignificantDigits
+                  ? Number(maxSignificantDigits)
+                  : undefined,
+                // @ts-expect-error TODO this property exists but not in TS library
+                roundingPriority,
               },
             })}
           </span>
@@ -187,6 +204,38 @@ function App() {
           min={0}
           max={20}
           info="Leave empty for default behaviour."
+        />
+        <NumberInput
+          value={minSignificantDigits}
+          setValue={(newValue) => {
+            setMinSignificantDigits(newValue);
+          }}
+          name="min-significant-digits"
+          label="Minimum significant digits:"
+          min={1}
+          max={21}
+        />
+        <NumberInput
+          value={maxSignificantDigits}
+          setValue={(newValue) => {
+            setMaxSignificantDigits(newValue);
+          }}
+          name="max-significant-digits"
+          label="Maximum significant digits:"
+          min={1}
+          max={21}
+        />
+        <Radio
+          name="rounding-priority"
+          label="Rounding priority:"
+          value={roundingPriority}
+          setValue={(newValue) =>
+            setRoundingPriority(
+              newValue as 'auto' | 'morePrecision' | 'lessPrecision',
+            )
+          }
+          options={['auto', 'morePrecision', 'lessPrecision']}
+          info="Determines how rounding conflicts will be resolved when both fraction digits and significant digits are specified. 'Auto' means prioritising significant digits."
         />
       </div>
     </main>
