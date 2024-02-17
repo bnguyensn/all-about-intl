@@ -1,15 +1,31 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import { ErrorBoundary } from 'react-error-boundary';
 import { NumberInput } from './components/NumberInput.tsx';
 import { Radio } from './components/Radio.tsx';
 import { Select } from './components/Select.tsx';
 import { TextInput } from './components/TextInput.tsx';
-import { format } from './lib/format.ts';
 import units from './config/units.json';
+import { format } from './lib/format.ts';
 
 type Locale = 'en-GB' | 'en-US';
 
 const LOCAL_STORAGE_VALUE_KEY = 'inputValue';
+
+function fallbackRender({
+  error,
+  resetErrorBoundary,
+}: {
+  error: Error;
+  resetErrorBoundary: () => void;
+}) {
+  return (
+    <div>
+      <span className="error-message">{error.message}</span>
+      <button onClick={resetErrorBoundary}>Try again</button>
+    </div>
+  );
+}
 
 function App() {
   const [locale, setLocale] = useState<Locale | ''>('en-GB');
@@ -56,39 +72,41 @@ function App() {
           name="number-to-be-formatted"
           label="To be formatted:"
         />
-        <span>
-          {input === '' ? 'Nothing to format' : 'Formatted value: '}
-          <span className="formatted-value">
-            {format(input, {
-              locale,
-              options: {
-                style: formatStyle,
-                currency,
-                currencyDisplay,
-                currencySign,
-                unit,
-                unitDisplay,
-                minimumIntegerDigits: minIntDigits
-                  ? Number(minIntDigits)
-                  : undefined,
-                minimumFractionDigits: minFractionDigits
-                  ? Number(minFractionDigits)
-                  : undefined,
-                maximumFractionDigits: maxFractionDigits
-                  ? Number(maxFractionDigits)
-                  : undefined,
-                minimumSignificantDigits: minSignificantDigits
-                  ? Number(minSignificantDigits)
-                  : undefined,
-                maximumSignificantDigits: maxSignificantDigits
-                  ? Number(maxSignificantDigits)
-                  : undefined,
-                // @ts-expect-error TODO this property exists but not in TS library
-                roundingPriority,
-              },
-            })}
+        <ErrorBoundary fallbackRender={fallbackRender}>
+          <span>
+            {input === '' ? 'Nothing to format' : 'Formatted value: '}
+            <span className="formatted-value">
+              {format(input, {
+                locale,
+                options: {
+                  style: formatStyle,
+                  currency,
+                  currencyDisplay,
+                  currencySign,
+                  unit,
+                  unitDisplay,
+                  minimumIntegerDigits: minIntDigits
+                    ? Number(minIntDigits)
+                    : undefined,
+                  minimumFractionDigits: minFractionDigits
+                    ? Number(minFractionDigits)
+                    : undefined,
+                  maximumFractionDigits: maxFractionDigits
+                    ? Number(maxFractionDigits)
+                    : undefined,
+                  minimumSignificantDigits: minSignificantDigits
+                    ? Number(minSignificantDigits)
+                    : undefined,
+                  maximumSignificantDigits: maxSignificantDigits
+                    ? Number(maxSignificantDigits)
+                    : undefined,
+                  // @ts-expect-error TODO this property exists but not in TS library
+                  roundingPriority,
+                },
+              })}
+            </span>
           </span>
-        </span>
+        </ErrorBoundary>
       </div>
       <div className="inputs-container">
         <Select
