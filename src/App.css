@@ -33,11 +33,3 @@ pre {
   gap: 8px;
   align-items: center;
 }
-
-.formatted-value {
-  color: lightseagreen;
-}
-
-.error-message {
-  color: hotpink;
-}

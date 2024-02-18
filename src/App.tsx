@@ -1,52 +1,20 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { ErrorBoundary } from 'react-error-boundary';
+import { FormatOutputWithErrorBoundary } from './components/FormatOutput.tsx';
 import { NumberInput } from './components/NumberInput.tsx';
 import { Radio } from './components/Radio.tsx';
 import { Select } from './components/Select.tsx';
 import { TextInput } from './components/TextInput.tsx';
 import units from './config/units.json';
-import { format } from './lib/format.ts';
-
-type Locale = 'en-GB' | 'en-US';
+import { SET_LOCALE, useFormatOptions } from './hooks/useFormatOptions.ts';
 
 const LOCAL_STORAGE_VALUE_KEY = 'inputValue';
 
-function fallbackRender({
-  error,
-  resetErrorBoundary,
-}: {
-  error: Error;
-  resetErrorBoundary: () => void;
-}) {
-  return (
-    <div>
-      <span className="error-message">{error.message}</span>
-      <button onClick={resetErrorBoundary}>Try again</button>
-    </div>
-  );
-}
-
 function App() {
-  const [locale, setLocale] = useState<Locale | ''>('en-GB');
-  const [formatStyle, setFormatStyle] =
-    useState<Intl.NumberFormatOptions['style']>('decimal');
-  const [currency, setCurrency] = useState('GBP');
-  const [currencyDisplay, setCurrencyDisplay] =
-    useState<Intl.NumberFormatOptions['currencyDisplay']>('symbol');
-  const [currencySign, setCurrencySign] =
-    useState<Intl.NumberFormatOptions['currencySign']>('standard');
-  const [unit, setUnit] = useState('byte');
-  const [minIntDigits, setMinIntDigits] = useState('');
-  const [minFractionDigits, setMinFractionDigits] = useState('');
-  const [maxFractionDigits, setMaxFractionDigits] = useState<string>('');
-  const [minSignificantDigits, setMinSignificantDigits] = useState<string>('');
-  const [maxSignificantDigits, setMaxSignificantDigits] = useState<string>('');
-  const [roundingPriority, setRoundingPriority] = useState<
-    'auto' | 'morePrecision' | 'lessPrecision'
-  >('auto');
-  const [unitDisplay, setUnitDisplay] =
-    useState<Intl.NumberFormatOptions['unitDisplay']>('short');
+  const {
+    state: { locale, ...formatOptions },
+    dispatch,
+  } = useFormatOptions();
 
   const [input, setInput] = useState('10000000');
 
@@ -72,47 +40,17 @@ function App() {
           name="number-to-be-formatted"
           label="To be formatted:"
         />
-        <ErrorBoundary fallbackRender={fallbackRender}>
-          <span>
-            {input === '' ? 'Nothing to format' : 'Formatted value: '}
-            <span className="formatted-value">
-              {format(input, {
-                locale,
-                options: {
-                  style: formatStyle,
-                  currency,
-                  currencyDisplay,
-                  currencySign,
-                  unit,
-                  unitDisplay,
-                  minimumIntegerDigits: minIntDigits
-                    ? Number(minIntDigits)
-                    : undefined,
-                  minimumFractionDigits: minFractionDigits
-                    ? Number(minFractionDigits)
-                    : undefined,
-                  maximumFractionDigits: maxFractionDigits
-                    ? Number(maxFractionDigits)
-                    : undefined,
-                  minimumSignificantDigits: minSignificantDigits
-                    ? Number(minSignificantDigits)
-                    : undefined,
-                  maximumSignificantDigits: maxSignificantDigits
-                    ? Number(maxSignificantDigits)
-                    : undefined,
-                  // @ts-expect-error TODO this property exists but not in TS library
-                  roundingPriority,
-                },
-              })}
-            </span>
-          </span>
-        </ErrorBoundary>
+        <FormatOutputWithErrorBoundary
+          input={input}
+          locale={locale}
+          options={formatOptions}
+        />
       </div>
       <div className="inputs-container">
         <Select
           value={locale}
           setValue={(newValue) => {
-            setLocale(newValue as Locale | '');
+            dispatch({ type: SET_LOCALE, payload: newValue });
           }}
           name="locale"
           label="Select locale:"
@@ -122,18 +60,24 @@ function App() {
         <Radio
           name="format-style"
           label="Style:"
-          value={`${formatStyle}`}
+          value={`${formatOptions.style}`}
           setValue={(newValue) =>
-            setFormatStyle(newValue as Intl.NumberFormatOptions['style'])
+            dispatch({
+              type: 'SET_OPTIONS',
+              payload: { key: 'style', value: newValue },
+            })
           }
           options={['decimal', 'currency', 'percent', 'unit']}
         />
-        {formatStyle === 'currency' && (
+        {formatOptions.style === 'currency' && (
           <>
             <Select
-              value={currency}
+              value={`${formatOptions.currency}`}
               setValue={(newValue) => {
-                setCurrency(newValue);
+                dispatch({
+                  type: 'SET_OPTIONS',
+                  payload: { key: 'currency', value: newValue },
+                });
               }}
               name="currency"
               label="Select currency:"
@@ -144,34 +88,39 @@ function App() {
             <Radio
               name="currency-display"
               label="Currency display:"
-              value={`${currencyDisplay}`}
+              value={`${formatOptions.currencyDisplay}`}
               setValue={(newValue) =>
-                setCurrencyDisplay(
-                  newValue as Intl.NumberFormatOptions['currencyDisplay'],
-                )
+                dispatch({
+                  type: 'SET_OPTIONS',
+                  payload: { key: 'currencyDisplay', value: newValue },
+                })
               }
               options={['code', 'symbol', 'narrowSymbol', 'name']}
             />
             <Radio
               name="currency-sign"
               label="Currency sign:"
-              value={`${currencySign}`}
+              value={`${formatOptions.currencySign}`}
               setValue={(newValue) =>
-                setCurrencySign(
-                  newValue as Intl.NumberFormatOptions['currencySign'],
-                )
+                dispatch({
+                  type: 'SET_OPTIONS',
+                  payload: { key: 'currencySign', value: newValue },
+                })
               }
               options={['standard', 'accounting']}
               info="'Accounting' will use parentheses for negative values."
             />
           </>
         )}
-        {formatStyle === 'unit' && (
+        {formatOptions.style === 'unit' && (
           <>
             <Select
-              value={unit}
+              value={`${formatOptions.unit}`}
               setValue={(newValue) => {
-                setUnit(newValue);
+                dispatch({
+                  type: 'SET_OPTIONS',
+                  payload: { key: 'unit', value: newValue },
+                });
               }}
               name="unit"
               label="Select unit:"
@@ -181,20 +130,24 @@ function App() {
             <Radio
               name="unit-display"
               label="Unit display:"
-              value={`${unitDisplay}`}
+              value={`${formatOptions.unitDisplay}`}
               setValue={(newValue) =>
-                setUnitDisplay(
-                  newValue as Intl.NumberFormatOptions['unitDisplay'],
-                )
+                dispatch({
+                  type: 'SET_OPTIONS',
+                  payload: { key: 'unitDisplay', value: newValue },
+                })
               }
               options={['short', 'narrow', 'long']}
             />
           </>
         )}
         <NumberInput
-          value={minIntDigits}
+          value={`${formatOptions.minimumIntegerDigits}`}
           setValue={(newValue) => {
-            setMinIntDigits(newValue);
+            dispatch({
+              type: 'SET_OPTIONS',
+              payload: { key: 'minimumIntegerDigits', value: newValue },
+            });
           }}
           name="min-int-digits"
           label="Minimum integer digits:"
@@ -203,9 +156,12 @@ function App() {
           info="A value with a smaller number of integer digits than this number will be left-padded with zeros when formatted."
         />
         <NumberInput
-          value={minFractionDigits}
+          value={`${formatOptions.minimumFractionDigits}`}
           setValue={(newValue) => {
-            setMinFractionDigits(newValue);
+            dispatch({
+              type: 'SET_OPTIONS',
+              payload: { key: 'minimumFractionDigits', value: newValue },
+            });
           }}
           name="min-fraction-digits"
           label="Minimum fraction digits:"
@@ -213,9 +169,12 @@ function App() {
           max={20}
         />
         <NumberInput
-          value={maxFractionDigits}
+          value={`${formatOptions.maximumFractionDigits}`}
           setValue={(newValue) => {
-            setMaxFractionDigits(newValue);
+            dispatch({
+              type: 'SET_OPTIONS',
+              payload: { key: 'maximumFractionDigits', value: newValue },
+            });
           }}
           name="max-fraction-digits"
           label="Maximum fraction digits:"
@@ -224,9 +183,12 @@ function App() {
           info="Leave empty for default behaviour."
         />
         <NumberInput
-          value={minSignificantDigits}
+          value={`${formatOptions.minimumSignificantDigits}`}
           setValue={(newValue) => {
-            setMinSignificantDigits(newValue);
+            dispatch({
+              type: 'SET_OPTIONS',
+              payload: { key: 'minimumSignificantDigits', value: newValue },
+            });
           }}
           name="min-significant-digits"
           label="Minimum significant digits:"
@@ -234,9 +196,12 @@ function App() {
           max={21}
         />
         <NumberInput
-          value={maxSignificantDigits}
+          value={`${formatOptions.maximumSignificantDigits}`}
           setValue={(newValue) => {
-            setMaxSignificantDigits(newValue);
+            dispatch({
+              type: 'SET_OPTIONS',
+              payload: { key: 'maximumSignificantDigits', value: newValue },
+            });
           }}
           name="max-significant-digits"
           label="Maximum significant digits:"
@@ -246,11 +211,12 @@ function App() {
         <Radio
           name="rounding-priority"
           label="Rounding priority:"
-          value={roundingPriority}
+          value={`${formatOptions.roundingPriority}`}
           setValue={(newValue) =>
-            setRoundingPriority(
-              newValue as 'auto' | 'morePrecision' | 'lessPrecision',
-            )
+            dispatch({
+              type: 'SET_OPTIONS',
+              payload: { key: 'roundingPriority', value: newValue },
+            })
           }
           options={['auto', 'morePrecision', 'lessPrecision']}
           info="Determines how rounding conflicts will be resolved when both fraction digits and significant digits are specified. 'Auto' means prioritising significant digits."
