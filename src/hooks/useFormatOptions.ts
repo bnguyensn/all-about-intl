@@ -3,7 +3,9 @@ import { useReducer } from 'react';
 export type UseFormatOptionsState = {
   locale: string;
 } & Intl.NumberFormatOptions & {
-    roundingPriority: 'auto' | 'morePrecision' | 'lessPrecision';
+    // Modern properties not yet supported by TypeScript
+    roundingPriority?: 'auto' | 'morePrecision' | 'lessPrecision';
+    roundingIncrement?: number;
   };
 
 const initialState: UseFormatOptionsState = {
@@ -20,6 +22,7 @@ const initialState: UseFormatOptionsState = {
   minimumSignificantDigits: 1,
   maximumSignificantDigits: 3,
   roundingPriority: 'auto',
+  roundingIncrement: 1,
 };
 
 interface BaseAction {
@@ -36,7 +39,7 @@ interface SetLocaleAction extends BaseAction {
 export const SET_OPTIONS = 'SET_OPTIONS';
 interface SetOptionsAction extends BaseAction {
   type: 'SET_OPTIONS';
-  payload: { key: string; value: string };
+  payload: { key: string; value: string | number | undefined };
 }
 
 function reducer(

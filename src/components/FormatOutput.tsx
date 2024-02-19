@@ -39,7 +39,12 @@ function fallbackRender({
 
 export function FormatOutputWithErrorBoundary(props: FormatOutputProps) {
   return (
-    <ErrorBoundary fallbackRender={fallbackRender}>
+    <ErrorBoundary
+      fallbackRender={fallbackRender}
+      onReset={() => {
+        window.location.reload();
+      }}
+    >
       <FormatOutput {...props} />
     </ErrorBoundary>
   );

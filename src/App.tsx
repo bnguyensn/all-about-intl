@@ -6,6 +6,7 @@ import { Radio } from './components/Radio.tsx';
 import { Select } from './components/Select.tsx';
 import { TextInput } from './components/TextInput.tsx';
 import units from './config/units.json';
+import roundingIncrements from './config/roundingIncrements.json';
 import { SET_LOCALE, useFormatOptions } from './hooks/useFormatOptions.ts';
 
 const LOCAL_STORAGE_VALUE_KEY = 'inputValue';
@@ -146,7 +147,10 @@ function App() {
           setValue={(newValue) => {
             dispatch({
               type: 'SET_OPTIONS',
-              payload: { key: 'minimumIntegerDigits', value: newValue },
+              payload: {
+                key: 'minimumIntegerDigits',
+                value: newValue === '' ? undefined : newValue,
+              },
             });
           }}
           name="min-int-digits"
@@ -160,7 +164,10 @@ function App() {
           setValue={(newValue) => {
             dispatch({
               type: 'SET_OPTIONS',
-              payload: { key: 'minimumFractionDigits', value: newValue },
+              payload: {
+                key: 'minimumFractionDigits',
+                value: newValue === '' ? undefined : newValue,
+              },
             });
           }}
           name="min-fraction-digits"
@@ -173,7 +180,10 @@ function App() {
           setValue={(newValue) => {
             dispatch({
               type: 'SET_OPTIONS',
-              payload: { key: 'maximumFractionDigits', value: newValue },
+              payload: {
+                key: 'maximumFractionDigits',
+                value: newValue === '' ? undefined : newValue,
+              },
             });
           }}
           name="max-fraction-digits"
@@ -187,7 +197,10 @@ function App() {
           setValue={(newValue) => {
             dispatch({
               type: 'SET_OPTIONS',
-              payload: { key: 'minimumSignificantDigits', value: newValue },
+              payload: {
+                key: 'minimumSignificantDigits',
+                value: newValue === '' ? undefined : newValue,
+              },
             });
           }}
           name="min-significant-digits"
@@ -200,7 +213,10 @@ function App() {
           setValue={(newValue) => {
             dispatch({
               type: 'SET_OPTIONS',
-              payload: { key: 'maximumSignificantDigits', value: newValue },
+              payload: {
+                key: 'maximumSignificantDigits',
+                value: newValue === '' ? undefined : newValue,
+              },
             });
           }}
           name="max-significant-digits"
@@ -221,6 +237,24 @@ function App() {
           options={['auto', 'morePrecision', 'lessPrecision']}
           info="Determines how rounding conflicts will be resolved when both fraction digits and significant digits are specified. 'Auto' means prioritising significant digits."
         />
+        {formatOptions.roundingPriority === 'auto' && (
+          <Select
+            value={`${formatOptions.roundingIncrement}`}
+            setValue={(newValue) => {
+              dispatch({
+                type: 'SET_OPTIONS',
+                payload: {
+                  key: 'roundingIncrement',
+                  value: newValue === '' ? undefined : newValue,
+                },
+              });
+            }}
+            name="rounding-increment"
+            label="Select rounding increment:"
+            options={roundingIncrements as string[]}
+            info="This is only available when rounding priority = 'auto'."
+          />
+        )}
       </div>
     </main>
   );
