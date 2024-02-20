@@ -6,6 +6,7 @@ export interface TextInputProps {
   setValue: (value: string) => void;
   name: string;
   label: string;
+  disabled?: boolean;
   info?: string;
 }
 
@@ -14,6 +15,7 @@ export function TextInput({
   setValue,
   name,
   label,
+  disabled,
   info,
 }: TextInputProps) {
   return (
@@ -27,6 +29,7 @@ export function TextInput({
         onChange={(e) => {
           setValue(e.target.value);
         }}
+        disabled={disabled}
       />
       {info && <Info content={info} />}
     </div>

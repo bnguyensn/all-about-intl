@@ -6,6 +6,16 @@ export type UseFormatOptionsState = {
     // Modern properties not yet supported by TypeScript
     roundingPriority?: 'auto' | 'morePrecision' | 'lessPrecision';
     roundingIncrement?: number;
+    roundingMode?:
+      | 'ceil'
+      | 'floor'
+      | 'expand'
+      | 'trunc'
+      | 'halfCeil'
+      | 'halfFloor'
+      | 'halfExpand'
+      | 'halfTrunc'
+      | 'halfEven';
   };
 
 const initialState: UseFormatOptionsState = {
@@ -16,13 +26,9 @@ const initialState: UseFormatOptionsState = {
   currencySign: 'standard',
   unit: 'acre',
   unitDisplay: 'short',
-  minimumIntegerDigits: 1,
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 3,
-  minimumSignificantDigits: 1,
-  maximumSignificantDigits: 3,
   roundingPriority: 'auto',
   roundingIncrement: 1,
+  roundingMode: 'halfExpand',
 };
 
 interface BaseAction {

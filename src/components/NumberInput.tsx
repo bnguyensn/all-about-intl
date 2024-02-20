@@ -8,6 +8,7 @@ export interface NumberInputProps {
   label: string;
   min?: number;
   max?: number;
+  disabled?: boolean;
   info?: string;
 }
 
@@ -18,6 +19,7 @@ export function NumberInput({
   label,
   min,
   max,
+  disabled,
   info,
 }: NumberInputProps) {
   return (
@@ -33,6 +35,7 @@ export function NumberInput({
         }}
         min={min}
         max={max}
+        disabled={disabled}
       />
       {info && <Info content={info} />}
     </div>

@@ -5,11 +5,23 @@ import { NumberInput } from './components/NumberInput.tsx';
 import { Radio } from './components/Radio.tsx';
 import { Select } from './components/Select.tsx';
 import { TextInput } from './components/TextInput.tsx';
-import units from './config/units.json';
 import roundingIncrements from './config/roundingIncrements.json';
+import roundingModes from './config/roundingModes.json';
+import units from './config/units.json';
 import { SET_LOCALE, useFormatOptions } from './hooks/useFormatOptions.ts';
 
 const LOCAL_STORAGE_VALUE_KEY = 'inputValue';
+
+function parseFormatOptions(
+  rawValue: string | number | undefined,
+  defaultValue?: string,
+): string {
+  return rawValue === undefined
+    ? defaultValue
+      ? defaultValue
+      : ''
+    : `${rawValue}`;
+}
 
 function App() {
   const {
@@ -61,7 +73,7 @@ function App() {
         <Radio
           name="format-style"
           label="Style:"
-          value={`${formatOptions.style}`}
+          value={parseFormatOptions(formatOptions.style, 'decimal')}
           setValue={(newValue) =>
             dispatch({
               type: 'SET_OPTIONS',
@@ -73,7 +85,7 @@ function App() {
         {formatOptions.style === 'currency' && (
           <>
             <Select
-              value={`${formatOptions.currency}`}
+              value={parseFormatOptions(formatOptions.currency)}
               setValue={(newValue) => {
                 dispatch({
                   type: 'SET_OPTIONS',
@@ -89,7 +101,10 @@ function App() {
             <Radio
               name="currency-display"
               label="Currency display:"
-              value={`${formatOptions.currencyDisplay}`}
+              value={parseFormatOptions(
+                formatOptions.currencyDisplay,
+                'symbol',
+              )}
               setValue={(newValue) =>
                 dispatch({
                   type: 'SET_OPTIONS',
@@ -101,7 +116,7 @@ function App() {
             <Radio
               name="currency-sign"
               label="Currency sign:"
-              value={`${formatOptions.currencySign}`}
+              value={parseFormatOptions(formatOptions.currencySign, 'standard')}
               setValue={(newValue) =>
                 dispatch({
                   type: 'SET_OPTIONS',
@@ -116,7 +131,7 @@ function App() {
         {formatOptions.style === 'unit' && (
           <>
             <Select
-              value={`${formatOptions.unit}`}
+              value={parseFormatOptions(formatOptions.unit)}
               setValue={(newValue) => {
                 dispatch({
                   type: 'SET_OPTIONS',
@@ -131,7 +146,7 @@ function App() {
             <Radio
               name="unit-display"
               label="Unit display:"
-              value={`${formatOptions.unitDisplay}`}
+              value={parseFormatOptions(formatOptions.unitDisplay, 'short')}
               setValue={(newValue) =>
                 dispatch({
                   type: 'SET_OPTIONS',
@@ -143,7 +158,7 @@ function App() {
           </>
         )}
         <NumberInput
-          value={`${formatOptions.minimumIntegerDigits}`}
+          value={parseFormatOptions(formatOptions.minimumIntegerDigits)}
           setValue={(newValue) => {
             dispatch({
               type: 'SET_OPTIONS',
@@ -160,7 +175,7 @@ function App() {
           info="A value with a smaller number of integer digits than this number will be left-padded with zeros when formatted."
         />
         <NumberInput
-          value={`${formatOptions.minimumFractionDigits}`}
+          value={parseFormatOptions(formatOptions.minimumFractionDigits)}
           setValue={(newValue) => {
             dispatch({
               type: 'SET_OPTIONS',
@@ -176,7 +191,7 @@ function App() {
           max={20}
         />
         <NumberInput
-          value={`${formatOptions.maximumFractionDigits}`}
+          value={parseFormatOptions(formatOptions.maximumFractionDigits)}
           setValue={(newValue) => {
             dispatch({
               type: 'SET_OPTIONS',
@@ -190,10 +205,11 @@ function App() {
           label="Maximum fraction digits:"
           min={0}
           max={20}
+          disabled={formatOptions.minimumFractionDigits === undefined}
           info="Leave empty for default behaviour."
         />
         <NumberInput
-          value={`${formatOptions.minimumSignificantDigits}`}
+          value={parseFormatOptions(formatOptions.minimumSignificantDigits)}
           setValue={(newValue) => {
             dispatch({
               type: 'SET_OPTIONS',
@@ -209,7 +225,7 @@ function App() {
           max={21}
         />
         <NumberInput
-          value={`${formatOptions.maximumSignificantDigits}`}
+          value={parseFormatOptions(formatOptions.maximumSignificantDigits)}
           setValue={(newValue) => {
             dispatch({
               type: 'SET_OPTIONS',
@@ -227,7 +243,7 @@ function App() {
         <Radio
           name="rounding-priority"
           label="Rounding priority:"
-          value={`${formatOptions.roundingPriority}`}
+          value={parseFormatOptions(formatOptions.roundingPriority, 'auto')}
           setValue={(newValue) =>
             dispatch({
               type: 'SET_OPTIONS',
@@ -239,7 +255,7 @@ function App() {
         />
         {formatOptions.roundingPriority === 'auto' && (
           <Select
-            value={`${formatOptions.roundingIncrement}`}
+            value={parseFormatOptions(formatOptions.roundingIncrement)}
             setValue={(newValue) => {
               dispatch({
                 type: 'SET_OPTIONS',
@@ -251,10 +267,25 @@ function App() {
             }}
             name="rounding-increment"
             label="Select rounding increment:"
-            options={roundingIncrements as string[]}
+            options={roundingIncrements}
             info="This is only available when rounding priority = 'auto'."
           />
         )}
+        <Select
+          value={parseFormatOptions(formatOptions.roundingMode)}
+          setValue={(newValue) => {
+            dispatch({
+              type: 'SET_OPTIONS',
+              payload: {
+                key: 'roundingMode',
+                value: newValue === '' ? undefined : newValue,
+              },
+            });
+          }}
+          name="rounding-mode"
+          label="Select rounding mode:"
+          options={roundingModes}
+        />
       </div>
     </main>
   );
