@@ -16,6 +16,7 @@ export type UseFormatOptionsState = {
       | 'halfExpand'
       | 'halfTrunc'
       | 'halfEven';
+    trailingZeroDisplay?: 'auto' | 'stripIfInteger';
   };
 
 const initialState: UseFormatOptionsState = {
@@ -29,6 +30,8 @@ const initialState: UseFormatOptionsState = {
   roundingPriority: 'auto',
   roundingIncrement: 1,
   roundingMode: 'halfExpand',
+  trailingZeroDisplay: 'auto',
+  notation: 'standard',
 };
 
 interface BaseAction {

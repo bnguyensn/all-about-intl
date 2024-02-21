@@ -286,6 +286,44 @@ function App() {
           label="Select rounding mode:"
           options={roundingModes}
         />
+        <Radio
+          name="trailing-zero-display"
+          label="Trailing zero display:"
+          value={parseFormatOptions(formatOptions.trailingZeroDisplay, 'auto')}
+          setValue={(newValue) =>
+            dispatch({
+              type: 'SET_OPTIONS',
+              payload: { key: 'trailingZeroDisplay', value: newValue },
+            })
+          }
+          options={['auto', 'stripIfInteger']}
+        />
+        <Radio
+          name="notation"
+          label="Notation:"
+          value={parseFormatOptions(formatOptions.notation, 'standard')}
+          setValue={(newValue) =>
+            dispatch({
+              type: 'SET_OPTIONS',
+              payload: { key: 'notation', value: newValue },
+            })
+          }
+          options={['standard', 'scientific', 'engineering', 'compact']}
+        />
+        {formatOptions.notation === 'compact' && (
+          <Radio
+            name="compact-display"
+            label="Compact display:"
+            value={parseFormatOptions(formatOptions.compactDisplay, 'short')}
+            setValue={(newValue) =>
+              dispatch({
+                type: 'SET_OPTIONS',
+                payload: { key: 'compactDisplay', value: newValue },
+              })
+            }
+            options={['short', 'long']}
+          />
+        )}
       </div>
     </main>
   );
