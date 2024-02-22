@@ -17,6 +17,7 @@ export type UseFormatOptionsState = {
       | 'halfTrunc'
       | 'halfEven';
     trailingZeroDisplay?: 'auto' | 'stripIfInteger';
+    useGrouping?: 'always' | 'auto' | 'min2' | true | false;
   };
 
 const initialState: UseFormatOptionsState = {

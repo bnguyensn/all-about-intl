@@ -13,7 +13,7 @@ import { SET_LOCALE, useFormatOptions } from './hooks/useFormatOptions.ts';
 const LOCAL_STORAGE_VALUE_KEY = 'inputValue';
 
 function parseFormatOptions(
-  rawValue: string | number | undefined,
+  rawValue: string | number | boolean | undefined,
   defaultValue?: string,
 ): string {
   return rawValue === undefined
@@ -324,6 +324,24 @@ function App() {
             options={['short', 'long']}
           />
         )}
+        <Select
+          value={parseFormatOptions(
+            formatOptions.useGrouping,
+            formatOptions.notation === 'compact' ? 'min2' : 'auto',
+          )}
+          setValue={(newValue) => {
+            dispatch({
+              type: 'SET_OPTIONS',
+              payload: {
+                key: 'useGrouping',
+                value: newValue === '' ? undefined : newValue,
+              },
+            });
+          }}
+          name="use-grouping"
+          label="Select use grouping:"
+          options={['always', 'auto', 'min2', 'true', 'false']}
+        />
       </div>
     </main>
   );
