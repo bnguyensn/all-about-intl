@@ -1,10 +1,15 @@
 .my-select {
-  display: flex;
+  display: grid;
+  grid-template: auto / 2fr 1fr;
   gap: 8px;
   align-items: center;
 
   label {
-    padding-right: 4px;
+    text-align: right;
+  }
+
+  select {
+    max-width: 100px;
   }
 
   select,

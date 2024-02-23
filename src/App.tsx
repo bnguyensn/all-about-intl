@@ -2,13 +2,16 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { FormatOutputWithErrorBoundary } from './components/FormatOutput.tsx';
 import { NumberInput } from './components/NumberInput.tsx';
-import { Radio } from './components/Radio.tsx';
 import { Select } from './components/Select.tsx';
 import { TextInput } from './components/TextInput.tsx';
 import roundingIncrements from './config/roundingIncrements.json';
 import roundingModes from './config/roundingModes.json';
 import units from './config/units.json';
-import { SET_LOCALE, useFormatOptions } from './hooks/useFormatOptions.ts';
+import {
+  RESET_OPTIONS,
+  SET_LOCALE,
+  useFormatOptions,
+} from './hooks/useFormatOptions.ts';
 
 const LOCAL_STORAGE_VALUE_KEY = 'inputValue';
 
@@ -57,6 +60,9 @@ function App() {
           input={input}
           locale={locale}
           options={formatOptions}
+          reset={() => {
+            dispatch({ type: RESET_OPTIONS });
+          }}
         />
       </div>
       <div className="inputs-container">
@@ -70,10 +76,10 @@ function App() {
           options={['en-GB', 'en-US', 'vi']}
           info={`Determines the locale used. Your browser's locale is "${navigator.language}".`}
         />
-        <Radio
+        <Select
           name="format-style"
           label="Style:"
-          value={parseFormatOptions(formatOptions.style, 'decimal')}
+          value={parseFormatOptions(formatOptions.style)}
           setValue={(newValue) =>
             dispatch({
               type: 'SET_OPTIONS',
@@ -98,13 +104,10 @@ function App() {
               noEmptyValue
               info="Currency must be provided when using 'currency' format style."
             />
-            <Radio
+            <Select
               name="currency-display"
               label="Currency display:"
-              value={parseFormatOptions(
-                formatOptions.currencyDisplay,
-                'symbol',
-              )}
+              value={parseFormatOptions(formatOptions.currencyDisplay)}
               setValue={(newValue) =>
                 dispatch({
                   type: 'SET_OPTIONS',
@@ -113,10 +116,10 @@ function App() {
               }
               options={['code', 'symbol', 'narrowSymbol', 'name']}
             />
-            <Radio
+            <Select
               name="currency-sign"
               label="Currency sign:"
-              value={parseFormatOptions(formatOptions.currencySign, 'standard')}
+              value={parseFormatOptions(formatOptions.currencySign)}
               setValue={(newValue) =>
                 dispatch({
                   type: 'SET_OPTIONS',
@@ -143,10 +146,10 @@ function App() {
               options={units}
               info="Unit must be provided when using 'unit' format style."
             />
-            <Radio
+            <Select
               name="unit-display"
               label="Unit display:"
-              value={parseFormatOptions(formatOptions.unitDisplay, 'short')}
+              value={parseFormatOptions(formatOptions.unitDisplay)}
               setValue={(newValue) =>
                 dispatch({
                   type: 'SET_OPTIONS',
@@ -240,10 +243,10 @@ function App() {
           min={1}
           max={21}
         />
-        <Radio
+        <Select
           name="rounding-priority"
           label="Rounding priority:"
-          value={parseFormatOptions(formatOptions.roundingPriority, 'auto')}
+          value={parseFormatOptions(formatOptions.roundingPriority)}
           setValue={(newValue) =>
             dispatch({
               type: 'SET_OPTIONS',
@@ -286,10 +289,10 @@ function App() {
           label="Select rounding mode:"
           options={roundingModes}
         />
-        <Radio
+        <Select
           name="trailing-zero-display"
           label="Trailing zero display:"
-          value={parseFormatOptions(formatOptions.trailingZeroDisplay, 'auto')}
+          value={parseFormatOptions(formatOptions.trailingZeroDisplay)}
           setValue={(newValue) =>
             dispatch({
               type: 'SET_OPTIONS',
@@ -298,10 +301,10 @@ function App() {
           }
           options={['auto', 'stripIfInteger']}
         />
-        <Radio
+        <Select
           name="notation"
           label="Notation:"
-          value={parseFormatOptions(formatOptions.notation, 'standard')}
+          value={parseFormatOptions(formatOptions.notation)}
           setValue={(newValue) =>
             dispatch({
               type: 'SET_OPTIONS',
@@ -311,10 +314,10 @@ function App() {
           options={['standard', 'scientific', 'engineering', 'compact']}
         />
         {formatOptions.notation === 'compact' && (
-          <Radio
+          <Select
             name="compact-display"
             label="Compact display:"
-            value={parseFormatOptions(formatOptions.compactDisplay, 'short')}
+            value={parseFormatOptions(formatOptions.compactDisplay)}
             setValue={(newValue) =>
               dispatch({
                 type: 'SET_OPTIONS',

@@ -52,9 +52,14 @@ interface SetOptionsAction extends BaseAction {
   payload: { key: string; value: string | number | undefined };
 }
 
+export const RESET_OPTIONS = 'RESET_OPTIONS';
+interface ResetOptionsAction extends BaseAction {
+  type: 'RESET_OPTIONS';
+}
+
 function reducer(
   state: UseFormatOptionsState,
-  action: SetLocaleAction | SetOptionsAction,
+  action: SetLocaleAction | SetOptionsAction | ResetOptionsAction,
 ) {
   if (action.type === SET_LOCALE) {
     return { ...state, locale: action.payload };
@@ -62,6 +67,10 @@ function reducer(
 
   if (action.type === SET_OPTIONS) {
     return { ...state, [action.payload.key]: action.payload.value };
+  }
+
+  if (action.type === RESET_OPTIONS) {
+    return initialState;
   }
 
   throw Error('Invalid action');

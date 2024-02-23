@@ -41,7 +41,6 @@ export function Select({
           </option>
         ))}
       </select>
-      {info && <Info content={info} />}
     </div>
   );
 }
