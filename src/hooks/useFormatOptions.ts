@@ -57,6 +57,15 @@ interface ResetOptionsAction extends BaseAction {
   type: 'RESET_OPTIONS';
 }
 
+function parseValue(
+  value: string | number | undefined,
+): string | number | undefined {
+  if (value === '') {
+    return undefined;
+  }
+  return value;
+}
+
 function reducer(
   state: UseFormatOptionsState,
   action: SetLocaleAction | SetOptionsAction | ResetOptionsAction,
@@ -66,7 +75,7 @@ function reducer(
   }
 
   if (action.type === SET_OPTIONS) {
-    return { ...state, [action.payload.key]: action.payload.value };
+    return { ...state, [action.payload.key]: parseValue(action.payload.value) };
   }
 
   if (action.type === RESET_OPTIONS) {

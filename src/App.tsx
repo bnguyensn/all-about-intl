@@ -196,6 +196,19 @@ function App() {
         <NumberInput
           value={parseFormatOptions(formatOptions.maximumFractionDigits)}
           setValue={(newValue) => {
+            if (
+              formatOptions.minimumFractionDigits === undefined &&
+              newValue !== ''
+            ) {
+              dispatch({
+                type: 'SET_OPTIONS',
+                payload: {
+                  key: 'minimumFractionDigits',
+                  value: newValue,
+                },
+              });
+            }
+
             dispatch({
               type: 'SET_OPTIONS',
               payload: {
@@ -208,7 +221,6 @@ function App() {
           label="Maximum fraction digits:"
           min={0}
           max={20}
-          disabled={formatOptions.minimumFractionDigits === undefined}
           info="Leave empty for default behaviour."
         />
         <NumberInput

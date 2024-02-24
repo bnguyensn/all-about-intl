@@ -1,5 +1,4 @@
 import './Select.css';
-import { Info } from './Info.tsx';
 
 export interface SelectProps {
   name: string;
@@ -20,7 +19,6 @@ export function Select({
   options,
   noEmptyValue,
   disabled,
-  info,
 }: SelectProps) {
   return (
     <div className="my-select">
