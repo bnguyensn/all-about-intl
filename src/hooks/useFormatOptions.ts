@@ -1,7 +1,7 @@
 import { useReducer } from 'react';
 
 export type UseFormatOptionsState = {
-  locale: string;
+  locale: string | undefined;
 } & Intl.NumberFormatOptions & {
     // Modern properties not yet supported by TypeScript
     roundingPriority?: 'auto' | 'morePrecision' | 'lessPrecision';
@@ -71,7 +71,10 @@ function reducer(
   action: SetLocaleAction | SetOptionsAction | ResetOptionsAction,
 ) {
   if (action.type === SET_LOCALE) {
-    return { ...state, locale: action.payload };
+    return {
+      ...state,
+      locale: parseValue(action.payload) as string | undefined,
+    };
   }
 
   if (action.type === SET_OPTIONS) {

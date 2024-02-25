@@ -69,7 +69,7 @@ function App() {
       <div className="inputs-container">
         <hr />
         <Select
-          value={locale}
+          value={parseFormatOptions(locale)}
           setValue={(newValue) => {
             dispatch({ type: SET_LOCALE, payload: newValue });
           }}

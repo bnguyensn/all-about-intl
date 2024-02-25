@@ -1,10 +1,10 @@
 import { ErrorBoundary } from 'react-error-boundary';
-import { formatSpecial } from '../lib/formatSpecial.ts';
+import { formatIntlVanilla } from '../lib/formatIntlVanilla.ts';
 import './FormatOutput.css';
 
 export interface FormatOutputProps {
   input: string;
-  locale: string;
+  locale: string | undefined;
   options: Intl.NumberFormatOptions;
 }
 
@@ -13,7 +13,7 @@ function FormatOutput({ input, locale, options }: FormatOutputProps) {
     <span>
       {input === '' ? 'Nothing to format' : 'Formatted value: '}
       <span className="formatted-value">
-        {formatSpecial(input, {
+        {formatIntlVanilla(input, {
           locale,
           options,
         })}
