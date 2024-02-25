@@ -1,4 +1,3 @@
-import { Info } from './Info.tsx';
 import './TextInput.css';
 
 export interface NumberInputProps {
@@ -20,7 +19,6 @@ export function NumberInput({
   min,
   max,
   disabled,
-  info,
 }: NumberInputProps) {
   return (
     <div className="my-text-input">
@@ -37,7 +35,6 @@ export function NumberInput({
         max={max}
         disabled={disabled}
       />
-      {info && <Info content={info} />}
     </div>
   );
 }

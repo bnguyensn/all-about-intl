@@ -1,9 +1,15 @@
 .my-text-input {
-  display: flex;
+  display: grid;
+  grid-template: auto / 2fr 1fr;
   gap: 8px;
   align-items: center;
 
   label {
-    padding-right: 4px;
+    text-align: right;
+  }
+
+  input {
+    max-width: 92px;
+    font-family: inherit;
   }
 }

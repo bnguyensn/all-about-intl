@@ -1,5 +1,5 @@
 import { ErrorBoundary } from 'react-error-boundary';
-import { format } from '../lib/format.ts';
+import { formatSpecial } from '../lib/formatSpecial.ts';
 import './FormatOutput.css';
 
 export interface FormatOutputProps {
@@ -13,7 +13,7 @@ function FormatOutput({ input, locale, options }: FormatOutputProps) {
     <span>
       {input === '' ? 'Nothing to format' : 'Formatted value: '}
       <span className="formatted-value">
-        {format(input, {
+        {formatSpecial(input, {
           locale,
           options,
         })}
@@ -30,8 +30,8 @@ function fallbackRender({
   resetErrorBoundary: () => void;
 }) {
   return (
-    <div>
-      <span className="error-message">{error.message}</span>
+    <div className="format-output-container">
+      <span className="error-message">Error: {error.message}</span>
       <button onClick={resetErrorBoundary}>Try again</button>
     </div>
   );

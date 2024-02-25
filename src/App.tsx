@@ -61,11 +61,13 @@ function App() {
           locale={locale}
           options={formatOptions}
           reset={() => {
+            setInput('0');
             dispatch({ type: RESET_OPTIONS });
           }}
         />
       </div>
       <div className="inputs-container">
+        <hr />
         <Select
           value={locale}
           setValue={(newValue) => {
@@ -76,90 +78,7 @@ function App() {
           options={['en-GB', 'en-US', 'vi']}
           info={`Determines the locale used. Your browser's locale is "${navigator.language}".`}
         />
-        <Select
-          name="format-style"
-          label="Style:"
-          value={parseFormatOptions(formatOptions.style)}
-          setValue={(newValue) =>
-            dispatch({
-              type: 'SET_OPTIONS',
-              payload: { key: 'style', value: newValue },
-            })
-          }
-          options={['decimal', 'currency', 'percent', 'unit']}
-        />
-        {formatOptions.style === 'currency' && (
-          <>
-            <Select
-              value={parseFormatOptions(formatOptions.currency)}
-              setValue={(newValue) => {
-                dispatch({
-                  type: 'SET_OPTIONS',
-                  payload: { key: 'currency', value: newValue },
-                });
-              }}
-              name="currency"
-              label="Select currency:"
-              options={['GBP', 'USD', 'EUR']}
-              noEmptyValue
-              info="Currency must be provided when using 'currency' format style."
-            />
-            <Select
-              name="currency-display"
-              label="Currency display:"
-              value={parseFormatOptions(formatOptions.currencyDisplay)}
-              setValue={(newValue) =>
-                dispatch({
-                  type: 'SET_OPTIONS',
-                  payload: { key: 'currencyDisplay', value: newValue },
-                })
-              }
-              options={['code', 'symbol', 'narrowSymbol', 'name']}
-            />
-            <Select
-              name="currency-sign"
-              label="Currency sign:"
-              value={parseFormatOptions(formatOptions.currencySign)}
-              setValue={(newValue) =>
-                dispatch({
-                  type: 'SET_OPTIONS',
-                  payload: { key: 'currencySign', value: newValue },
-                })
-              }
-              options={['standard', 'accounting']}
-              info="'Accounting' will use parentheses for negative values."
-            />
-          </>
-        )}
-        {formatOptions.style === 'unit' && (
-          <>
-            <Select
-              value={parseFormatOptions(formatOptions.unit)}
-              setValue={(newValue) => {
-                dispatch({
-                  type: 'SET_OPTIONS',
-                  payload: { key: 'unit', value: newValue },
-                });
-              }}
-              name="unit"
-              label="Select unit:"
-              options={units}
-              info="Unit must be provided when using 'unit' format style."
-            />
-            <Select
-              name="unit-display"
-              label="Unit display:"
-              value={parseFormatOptions(formatOptions.unitDisplay)}
-              setValue={(newValue) =>
-                dispatch({
-                  type: 'SET_OPTIONS',
-                  payload: { key: 'unitDisplay', value: newValue },
-                })
-              }
-              options={['short', 'narrow', 'long']}
-            />
-          </>
-        )}
+        <hr />
         <NumberInput
           value={parseFormatOptions(formatOptions.minimumIntegerDigits)}
           setValue={(newValue) => {
@@ -255,6 +174,91 @@ function App() {
           min={1}
           max={21}
         />
+        <hr />
+        <Select
+          name="format-style"
+          label="Style:"
+          value={parseFormatOptions(formatOptions.style)}
+          setValue={(newValue) =>
+            dispatch({
+              type: 'SET_OPTIONS',
+              payload: { key: 'style', value: newValue },
+            })
+          }
+          options={['decimal', 'currency', 'percent', 'unit']}
+        />
+        {formatOptions.style === 'currency' && (
+          <>
+            <Select
+              value={parseFormatOptions(formatOptions.currency)}
+              setValue={(newValue) => {
+                dispatch({
+                  type: 'SET_OPTIONS',
+                  payload: { key: 'currency', value: newValue },
+                });
+              }}
+              name="currency"
+              label="Select currency:"
+              options={['GBP', 'USD', 'EUR']}
+              noEmptyValue
+              info="Currency must be provided when using 'currency' format style."
+            />
+            <Select
+              name="currency-display"
+              label="Currency display:"
+              value={parseFormatOptions(formatOptions.currencyDisplay)}
+              setValue={(newValue) =>
+                dispatch({
+                  type: 'SET_OPTIONS',
+                  payload: { key: 'currencyDisplay', value: newValue },
+                })
+              }
+              options={['code', 'symbol', 'narrowSymbol', 'name']}
+            />
+            <Select
+              name="currency-sign"
+              label="Currency sign:"
+              value={parseFormatOptions(formatOptions.currencySign)}
+              setValue={(newValue) =>
+                dispatch({
+                  type: 'SET_OPTIONS',
+                  payload: { key: 'currencySign', value: newValue },
+                })
+              }
+              options={['standard', 'accounting']}
+              info="'Accounting' will use parentheses for negative values."
+            />
+          </>
+        )}
+        {formatOptions.style === 'unit' && (
+          <>
+            <Select
+              value={parseFormatOptions(formatOptions.unit)}
+              setValue={(newValue) => {
+                dispatch({
+                  type: 'SET_OPTIONS',
+                  payload: { key: 'unit', value: newValue },
+                });
+              }}
+              name="unit"
+              label="Select unit:"
+              options={units}
+              info="Unit must be provided when using 'unit' format style."
+            />
+            <Select
+              name="unit-display"
+              label="Unit display:"
+              value={parseFormatOptions(formatOptions.unitDisplay)}
+              setValue={(newValue) =>
+                dispatch({
+                  type: 'SET_OPTIONS',
+                  payload: { key: 'unitDisplay', value: newValue },
+                })
+              }
+              options={['short', 'narrow', 'long']}
+            />
+          </>
+        )}
         <Select
           name="rounding-priority"
           label="Rounding priority:"

@@ -15,7 +15,7 @@ const specialCharsMultiplyValue = {
  * Format a number string (if not a number, will notify) to something nice using
  * Intl.
  */
-export function format(
+export function formatSpecial(
   value: string,
   { locale, options }: FormatOptions = {},
 ): string {
@@ -45,7 +45,7 @@ export function format(
 
   let numberValue = Number(valueToBeFormatted);
   if (Number.isNaN(numberValue)) {
-    return '';
+    return 'Not a number';
   }
   numberValue *= finalMultiplier;
 
