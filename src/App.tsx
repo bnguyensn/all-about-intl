@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { FormatOutputWithErrorBoundary } from './components/FormatOutput.tsx';
-import { InfoWrapper } from './components/InfoWrapper.tsx';
 import { NumberInput } from './components/NumberInput.tsx';
 import { Select } from './components/Select.tsx';
 import { TextInput } from './components/TextInput.tsx';
@@ -176,20 +175,19 @@ function App() {
           max={21}
         />
         <hr />
-        <InfoWrapper info="Set the style of the formatted value. Additional options are available depending on the style.">
-          <Select
-            name="format-style"
-            label="Style:"
-            value={parseFormatOptions(formatOptions.style)}
-            setValue={(newValue) =>
-              dispatch({
-                type: 'SET_OPTIONS',
-                payload: { key: 'style', value: newValue },
-              })
-            }
-            options={['decimal', 'currency', 'percent', 'unit']}
-          />
-        </InfoWrapper>
+        <Select
+          name="format-style"
+          label="Style:"
+          value={parseFormatOptions(formatOptions.style)}
+          setValue={(newValue) =>
+            dispatch({
+              type: 'SET_OPTIONS',
+              payload: { key: 'style', value: newValue },
+            })
+          }
+          options={['decimal', 'currency', 'percent', 'unit']}
+          info="Set the style of the formatted value. Additional options are available depending on the style."
+        />
         {formatOptions.style === 'currency' && (
           <>
             <Select

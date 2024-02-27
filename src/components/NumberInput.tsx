@@ -1,4 +1,5 @@
 import './TextInput.css';
+import { InfoWrapper } from './InfoWrapper.tsx';
 
 export interface NumberInputProps {
   value: string;
@@ -19,8 +20,9 @@ export function NumberInput({
   min,
   max,
   disabled,
+  info,
 }: NumberInputProps) {
-  return (
+  const inputComponent = (
     <div className="my-text-input">
       <label htmlFor={`${name}-number-input`}>{label}</label>
       <input
@@ -36,5 +38,11 @@ export function NumberInput({
         disabled={disabled}
       />
     </div>
+  );
+
+  return info ? (
+    <InfoWrapper info={info}>{inputComponent}</InfoWrapper>
+  ) : (
+    inputComponent
   );
 }

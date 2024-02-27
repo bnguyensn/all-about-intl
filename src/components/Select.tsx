@@ -1,4 +1,5 @@
 import './Select.css';
+import { InfoWrapper, InfoWrapperProps } from './InfoWrapper.tsx';
 
 export interface SelectProps {
   name: string;
@@ -8,7 +9,7 @@ export interface SelectProps {
   options: string[];
   noEmptyValue?: boolean;
   disabled?: boolean;
-  info?: string;
+  info?: InfoWrapperProps['info'];
 }
 
 export function Select({
@@ -19,8 +20,9 @@ export function Select({
   options,
   noEmptyValue,
   disabled,
+  info,
 }: SelectProps) {
-  return (
+  const selectComponent = (
     <div className="my-select">
       <label htmlFor={`${name}-select`}>{label}</label>
       <select
@@ -40,5 +42,11 @@ export function Select({
         ))}
       </select>
     </div>
+  );
+
+  return info ? (
+    <InfoWrapper info={info}>{selectComponent}</InfoWrapper>
+  ) : (
+    selectComponent
   );
 }

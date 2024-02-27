@@ -28,6 +28,10 @@ hr {
   background-color: silver;
 }
 
+main {
+  max-width: 340px;
+}
+
 .inputs-container {
   display: flex;
   flex-direction: column;
