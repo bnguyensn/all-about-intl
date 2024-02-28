@@ -94,7 +94,7 @@ function App() {
           label="Minimum integer digits:"
           min={1}
           max={21}
-          info="A value with a smaller number of integer digits than this number will be left-padded with zeros when formatted."
+          info="A value with a smaller number of integer digits than the minimum integer digits will be left-padded with zeros when formatted."
         />
         <NumberInput
           value={parseFormatOptions(formatOptions.minimumFractionDigits)}
@@ -111,6 +111,7 @@ function App() {
           label="Minimum fraction digits:"
           min={0}
           max={20}
+          info="Possible values are from 0 to 20."
         />
         <NumberInput
           value={parseFormatOptions(formatOptions.maximumFractionDigits)}
@@ -140,7 +141,7 @@ function App() {
           label="Maximum fraction digits:"
           min={0}
           max={20}
-          info="Leave empty for default behaviour."
+          info="Possible values are from 0 to 20. This can't be less than the minimum fraction digits."
         />
         <NumberInput
           value={parseFormatOptions(formatOptions.minimumSignificantDigits)}
@@ -157,6 +158,7 @@ function App() {
           label="Minimum significant digits:"
           min={1}
           max={21}
+          info="Possible values are from 1 to 21."
         />
         <NumberInput
           value={parseFormatOptions(formatOptions.maximumSignificantDigits)}
@@ -173,6 +175,7 @@ function App() {
           label="Maximum significant digits:"
           min={1}
           max={21}
+          info="Possible values are from 1 to 21. This can't be less than the minimum significant digits."
         />
         <hr />
         <Select
