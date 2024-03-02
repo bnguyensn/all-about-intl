@@ -32,6 +32,20 @@ main {
   max-width: 340px;
 }
 
+pre {
+  display: inline;
+}
+
+p {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 .inputs-container {
   display: flex;
   flex-direction: column;

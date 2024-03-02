@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { FormatOutputWithErrorBoundary } from './components/FormatOutput.tsx';
+import { LocaleSelectInfo } from './components/LocaleSelectInfo.tsx';
 import { NumberInput } from './components/NumberInput.tsx';
 import { Select } from './components/Select.tsx';
 import { TextInput } from './components/TextInput.tsx';
@@ -76,7 +77,7 @@ function App() {
           name="locale"
           label="Select locale:"
           options={['en-GB', 'en-US', 'vi']}
-          info={`Determines the locale used. Your browser's locale is "${navigator.language}".`}
+          info={<LocaleSelectInfo />}
         />
         <hr />
         <NumberInput
