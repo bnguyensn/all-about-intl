@@ -20,8 +20,8 @@ export function LocaleSelectInfo() {
         <li>A private-use extension sequence</li>
       </ul>
       <p>
-        Example: `zh-Hans-CN` means Chinese (language) written in simplified
-        characters (script) as used in China (region).<pre></pre>
+        Example: <pre>zh-Hans-CN</pre> means Chinese (language) written in
+        simplified characters (script) as used in China (region).<pre></pre>
       </p>
     </div>
   );

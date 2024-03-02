@@ -34,6 +34,9 @@ main {
 
 pre {
   display: inline;
+  background-color: #eee;
+  padding: 0 2px;
+  border-radius: 4px;
 }
 
 p {
