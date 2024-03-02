@@ -13,6 +13,7 @@ import {
   SET_LOCALE,
   useFormatOptions,
 } from './hooks/useFormatOptions.ts';
+import { getJSONDownloadLink } from './lib/getJSONDownloadLink.ts';
 
 const LOCAL_STORAGE_VALUE_KEY = 'inputValue';
 
@@ -42,6 +43,9 @@ function App() {
     }
   }, []);
 
+  const formatter = Intl.NumberFormat(locale, formatOptions);
+  const resolvedFormatterOptions = formatter.resolvedOptions();
+
   return (
     <main>
       <h1>
@@ -66,6 +70,12 @@ function App() {
             dispatch({ type: RESET_OPTIONS });
           }}
         />
+        <a
+          href={getJSONDownloadLink(resolvedFormatterOptions)}
+          download="number-format-settings.json"
+        >
+          Download settings as JSON
+        </a>
       </div>
       <div className="inputs-container">
         <hr />

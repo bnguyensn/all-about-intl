@@ -16,10 +16,7 @@ export function formatIntlVanilla(
     return 'Not a number';
   }
 
-  const formatter = Intl.NumberFormat(locale, {
-    minimumFractionDigits: 5,
-    ...options,
-  });
+  const formatter = Intl.NumberFormat(locale, options);
 
   return formatter.format(numberValue);
 }
