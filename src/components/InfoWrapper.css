@@ -17,9 +17,11 @@
 
 .info-wrapper-hidden-container {
   text-align: right;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   line-height: 1.3;
-  padding: 0 4px;
+  padding: 8px 4px;
+  background-color: #b3e5fc;
+  border-radius: 6px;
 }
 
 .info-wrapper-hidden-container.hidden {
