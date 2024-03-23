@@ -1,38 +1,11 @@
 import { useReducer } from 'react';
 
-export type UseFormatOptionsState = {
+export type UseDateTimeFormatOptionsState = {
   locale: string | undefined;
-} & Intl.NumberFormatOptions & {
-    // Modern properties not yet supported by TypeScript
-    roundingPriority?: 'auto' | 'morePrecision' | 'lessPrecision';
-    roundingIncrement?: number;
-    roundingMode?:
-      | 'ceil'
-      | 'floor'
-      | 'expand'
-      | 'trunc'
-      | 'halfCeil'
-      | 'halfFloor'
-      | 'halfExpand'
-      | 'halfTrunc'
-      | 'halfEven';
-    trailingZeroDisplay?: 'auto' | 'stripIfInteger';
-    useGrouping?: 'always' | 'auto' | 'min2' | true | false;
-  };
+} & Intl.DateTimeFormatOptions;
 
-const initialState: UseFormatOptionsState = {
+const initialState: UseDateTimeFormatOptionsState = {
   locale: 'en-GB',
-  style: 'decimal',
-  currency: 'GBP',
-  currencyDisplay: 'symbol',
-  currencySign: 'standard',
-  unit: 'acre',
-  unitDisplay: 'short',
-  roundingPriority: 'auto',
-  roundingIncrement: 1,
-  roundingMode: 'halfExpand',
-  trailingZeroDisplay: 'auto',
-  notation: 'standard',
 };
 
 interface BaseAction {
@@ -67,7 +40,7 @@ function parseValue(
 }
 
 function reducer(
-  state: UseFormatOptionsState,
+  state: UseDateTimeFormatOptionsState,
   action: SetLocaleAction | SetOptionsAction | ResetOptionsAction,
 ) {
   if (action.type === SET_LOCALE) {
@@ -88,7 +61,7 @@ function reducer(
   throw Error('Invalid action');
 }
 
-export function useFormatOptions() {
+export function useDateTimeFormatOptions() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return {
