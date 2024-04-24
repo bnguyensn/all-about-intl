@@ -1,14 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { App } from './App.tsx';
 import { ErrorPage } from './pages/ErrorPage.tsx';
+import { NumberFormatPage } from './pages/NumberFormatPage.tsx';
+import { DateTimeFormatPage } from './pages/DateTimeFormatPage.tsx';
 import './index.css';
+import './App.css';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <NumberFormatPage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/datetime',
+    element: <DateTimeFormatPage />,
     errorElement: <ErrorPage />,
   },
 ]);

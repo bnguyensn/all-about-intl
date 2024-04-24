@@ -14,6 +14,7 @@ import {
 } from '../hooks/useNumberFormatOptions.ts';
 import { getJSONDownloadLink } from '../lib/getJSONDownloadLink.ts';
 import { parseFormatOptions } from '../lib/parseFormatOptions.ts';
+import { NavBar } from '../components/NavBar.tsx';
 
 const LOCAL_STORAGE_VALUE_KEY = 'numberFormatInputValue';
 
@@ -37,6 +38,7 @@ export function NumberFormatPage() {
 
   return (
     <main>
+      <NavBar />
       <h1>
         <pre>Intl.NumberFormat</pre>
       </h1>

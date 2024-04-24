@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDateTimeFormatOptions } from '../hooks/useDateTimeFormatOptions';
+import { NavBar } from '../components/NavBar';
 
 export function DateTimeFormatPage() {
   const {
@@ -11,6 +12,7 @@ export function DateTimeFormatPage() {
 
   return (
     <main>
+      <NavBar />
       <h1>
         <pre>Intl.DateFormat</pre>
       </h1>
