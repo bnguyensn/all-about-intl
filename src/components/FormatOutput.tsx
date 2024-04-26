@@ -1,23 +1,16 @@
 import { ErrorBoundary } from 'react-error-boundary';
-import { formatIntlVanilla } from '../lib/formatIntlVanilla.ts';
 import './FormatOutput.css';
 
 export interface FormatOutputProps {
   input: string;
-  locale: string | undefined;
-  options: Intl.NumberFormatOptions;
+  formatter: (input: string) => string;
 }
 
-function FormatOutput({ input, locale, options }: FormatOutputProps) {
+function FormatOutput({ input, formatter }: FormatOutputProps) {
   return (
     <span>
       {input === '' ? 'Nothing to format' : 'Formatted value: '}
-      <span className="formatted-value">
-        {formatIntlVanilla(input, {
-          locale,
-          options,
-        })}
-      </span>
+      <span className="formatted-value">{formatter(input)}</span>
     </span>
   );
 }

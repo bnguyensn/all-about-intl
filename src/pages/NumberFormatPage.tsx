@@ -15,6 +15,7 @@ import {
 import { getJSONDownloadLink } from '../lib/getJSONDownloadLink.ts';
 import { parseFormatOptions } from '../lib/parseFormatOptions.ts';
 import { NavBar } from '../components/NavBar.tsx';
+import { formatIntlVanilla } from '../lib/formatIntlVanilla.ts';
 
 const LOCAL_STORAGE_VALUE_KEY = 'numberFormatInputValue';
 
@@ -54,8 +55,9 @@ export function NumberFormatPage() {
         />
         <FormatOutputWithErrorBoundary
           input={input}
-          locale={locale}
-          options={formatOptions}
+          formatter={(inp) =>
+            formatIntlVanilla(inp, { locale, options: formatOptions })
+          }
           reset={() => {
             setInput('0');
             dispatch({ type: RESET_OPTIONS });
