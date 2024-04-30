@@ -5,10 +5,11 @@ import {
 } from '../hooks/useDateTimeFormatOptions';
 import { NavBar } from '../components/NavBar';
 import { FormatOutputWithErrorBoundary } from '../components/FormatOutput';
+import { getJSONDownloadLink } from '../lib/getJSONDownloadLink';
 
 function dateToInput(d: Date): string {
   const year = d.getFullYear();
-  const month = d.getMonth() - 1;
+  const month = d.getMonth() + 1;
   const date = d.getDate();
   return `${year}-${month.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}T00:00`;
 }
@@ -27,6 +28,10 @@ export function DateTimeFormatPage() {
   } = useDateTimeFormatOptions();
 
   const [input, setInput] = useState(() => dateToInput(new Date()));
+  console.log(input);
+
+  const formatter = Intl.NumberFormat(locale, formatOptions);
+  const resolvedFormatterOptions = formatter.resolvedOptions();
 
   return (
     <main>
@@ -55,6 +60,12 @@ export function DateTimeFormatPage() {
             dispatch({ type: RESET_OPTIONS });
           }}
         />
+        <a
+          href={getJSONDownloadLink(resolvedFormatterOptions)}
+          download="datetime-format-settings.json"
+        >
+          Download settings as JSON
+        </a>
       </div>
     </main>
   );
