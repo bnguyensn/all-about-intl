@@ -19,6 +19,17 @@ import { formatIntlVanilla } from '../lib/formatIntlVanilla.ts';
 
 const LOCAL_STORAGE_VALUE_KEY = 'numberFormatInputValue';
 
+function getNumberFormatter(
+  locale: string,
+  formatOptions: Intl.NumberFormatOptions,
+): Intl.NumberFormat | undefined {
+  try {
+    return Intl.NumberFormat(locale, formatOptions);
+  } catch (err) {
+    return undefined;
+  }
+}
+
 export function NumberFormatPage() {
   const {
     state: { locale, ...formatOptions },
@@ -34,8 +45,11 @@ export function NumberFormatPage() {
     }
   }, []);
 
-  const formatter = Intl.NumberFormat(locale, formatOptions);
-  const resolvedFormatterOptions = formatter.resolvedOptions();
+  const formatter = getNumberFormatter(
+    locale ?? navigator.language,
+    formatOptions,
+  );
+  const resolvedFormatterOptions = formatter?.resolvedOptions() ?? {};
 
   return (
     <main>
