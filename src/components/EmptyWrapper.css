@@ -1,0 +1,4 @@
+.empty-wrapper-container {
+  /* 4px + 24px = 28px */
+  padding-right: 28px;
+}

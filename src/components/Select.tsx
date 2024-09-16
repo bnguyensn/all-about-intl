@@ -1,4 +1,5 @@
 import './Select.css';
+import { EmptyWrapper } from './EmptyWrapper.tsx';
 import { InfoWrapper, InfoWrapperProps } from './InfoWrapper.tsx';
 
 export interface SelectProps {
@@ -47,6 +48,6 @@ export function Select({
   return info ? (
     <InfoWrapper info={info}>{selectComponent}</InfoWrapper>
   ) : (
-    selectComponent
+    <EmptyWrapper>{selectComponent}</EmptyWrapper>
   );
 }
