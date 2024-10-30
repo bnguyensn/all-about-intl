@@ -83,6 +83,14 @@ export function NumberFormatPage() {
         >
           Download settings as JSON
         </a>
+        <button
+          onClick={() => {
+            setInput('0');
+            dispatch({ type: RESET_OPTIONS });
+          }}
+        >
+          Reset
+        </button>
       </div>
       <div className="inputs-container">
         <hr />
